@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude: The Easy Way - Session 1 Follow-Along Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FDF6F2;
+      --cream-mid: #F5EBE4;
+      --navy: #0F1E36;
+      --charcoal: #1a1a2e;
+      --gold: #B07856;
+      --gold-light: #D4A882;
+      --gold-cta: #C4956A;
+      --rose: rgba(196, 149, 106, 0.08);
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(165deg, #FDF6F2 0%, #F9EDE5 35%, #F5E6DA 100%);
+      padding: 80px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid rgba(176,120,86,0.18);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--rose);
+      border: 1px solid rgba(176,120,86,0.28);
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.65;
+      font-weight: 300;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* SECTIONS */
+    .section { padding: 56px 0; border-bottom: 1px solid rgba(176,120,86,0.12); }
+    .section:last-of-type { border-bottom: none; }
+    .section-navy { background: var(--navy); color: #F7E7CE; }
+    .section-navy h2 { color: #F7E7CE; }
+    .section-navy p { color: #F7E7CE; opacity: 0.8; }
+    .section-navy .step-number { background: rgba(212,175,103,0.15); color: var(--gold-light); }
+    .section-mid { background: var(--cream-mid); }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    p { margin-bottom: 14px; font-weight: 300; font-size: 0.95rem; }
+
+    /* STEP HEADERS */
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .step-number {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--rose);
+      border: 1.5px solid rgba(176,120,86,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .card-navy {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(212,175,103,0.2);
+    }
+    .card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* QUOTE */
+    .kelly-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--gold);
+      padding: 20px 24px;
+      border-left: 3px solid var(--gold-cta);
+      margin: 24px 0;
+      line-height: 1.6;
+      background: rgba(176,120,86,0.04);
+      border-radius: 0 12px 12px 0;
+    }
+    .kelly-quote .attr {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-style: normal;
+      display: block;
+      margin-top: 8px;
+      opacity: 0.5;
+      color: var(--charcoal);
+      letter-spacing: 1px;
+    }
+
+    /* PROMPT BOX */
+    .prompt-box {
+      background: var(--navy);
+      color: #F7E7CE;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      font-weight: 300;
+      position: relative;
+    }
+    .prompt-box::before {
+      content: 'PROMPT';
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      background: var(--gold-cta);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 2px 10px;
+      border-radius: 4px;
+    }
+    .prompt-box code {
+      display: block;
+      margin-top: 4px;
+      font-family: 'Inter', monospace;
+      color: var(--gold-light);
+    }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; margin: 16px 0; }
+    .checklist li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(176,120,86,0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.92rem;
+      font-weight: 300;
+    }
+    .checklist li::before {
+      content: '';
+      width: 20px; height: 20px;
+      min-width: 20px;
+      border: 1.5px solid rgba(176,120,86,0.35);
+      border-radius: 4px;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* GRID */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .grid-3 .mini-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .mini-card .label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .mini-card .value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .mini-card .detail {
+      font-size: 0.78rem;
+      opacity: 0.5;
+      margin-top: 4px;
+      font-weight: 300;
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 48px auto;
+      max-width: 200px;
+    }
+    .divider-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.2;
+    }
+    .divider-diamond {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      opacity: 0.35;
+    }
+
+    /* TIP */
+    .tip {
+      background: rgba(176,120,86,0.06);
+      border: 1px solid rgba(176,120,86,0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+    .tip strong { color: var(--gold); }
+
+    /* CTA */
+    .cta-section {
+      background: var(--navy);
+      text-align: center;
+      padding: 72px 0;
+    }
+    .cta-section h2 {
+      color: #F7E7CE;
+      margin-bottom: 12px;
+    }
+    .cta-section p {
+      color: #F7E7CE;
+      opacity: 0.6;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #D4A882 0%, #C4956A 40%, #B5845C 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(176,120,86,0.3);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      font-size: 0.75rem;
+      opacity: 0.35;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .hero { padding: 56px 0 40px; }
+      .hero h1 { font-size: 1.8rem; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .section { padding: 40px 0; }
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">SESSION 1 - FOLLOW-ALONG GUIDE</div>
+    <h1>Claude: <em>The Easy Way</em></h1>
+    <p>Everything we covered in Session 1 - step by step, with prompts you can copy. Your cheat sheet for making Claude work for your business.</p>
+  </div>
+</section>
+
+<!-- WHAT WE BUILT -->
+<section class="section">
+  <div class="container">
+    <h2>What We Built in 90 Minutes</h2>
+    <div class="grid-3">
+      <div class="mini-card">
+        <div class="label">Brand</div>
+        <div class="value">Project</div>
+        <div class="detail">Claude knows your brand</div>
+      </div>
+      <div class="mini-card">
+        <div class="label">Content</div>
+        <div class="value">5 Posts</div>
+        <div class="detail">Branded, on-voice, done</div>
+      </div>
+      <div class="mini-card">
+        <div class="label">Lead Magnet</div>
+        <div class="value">Digital Asset</div>
+        <div class="detail">Interactive check-in tool</div>
+      </div>
+    </div>
+    <div class="kelly-quote">
+      "It amplifies my own creative ability and my ability to deliver my creative ideas to the people that need them, that want them, and that will help them in their journey."
+      <span class="attr">- Kelly Wotherspoon</span>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 1: YOUR SETUP -->
+<section class="section section-mid">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <h2>Get Set Up</h2>
+    </div>
+    <p>Download the Claude Desktop app and get the Pro plan ($20 USD/month). It's worth every cent.</p>
+
+    <h3>The Three Modes</h3>
+    <div class="card">
+      <h4>Chat</h4>
+      <p>Your conversation space. Ask it anything. Like texting a really smart friend. This is where most people start - and it's powerful on its own.</p>
+    </div>
+    <div class="card">
+      <h4>Cowork</h4>
+      <p>The magic one. Claude works alongside you - it can use your tools, create in Canva, read your emails, check your calendar. This is where Claude actually DOES things for your business.</p>
+    </div>
+    <div class="card">
+      <h4>Code</h4>
+      <p>Terminal. Where Kelly lives now. You don't need this yet - just know it exists for when you're ready. This is where the really wild stuff happens.</p>
+    </div>
+
+    <h3>The Three Models</h3>
+    <div class="card">
+      <h4>Opus (Most Powerful)</h4>
+      <p>Deep reasoning, strategy, code, fine-tooth-comb analysis. The brain power turned all the way up. Uses the most tokens.</p>
+    </div>
+    <div class="card">
+      <h4>Sonnet (Creative)</h4>
+      <p>Beautiful creative writing, engaging language, brand voice perfection. Kelly's favourite. What Aurora uses for all her language. Best balance of quality and cost.</p>
+    </div>
+    <div class="card">
+      <h4>Haiku (Fast + Cheap)</h4>
+      <p>Quick decisions, simple tasks, things that don't need deep thought. Uses the least tokens. Great for rapid-fire building.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2: SETTINGS -->
+<section class="section">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <h2>Tell Claude Who You Are</h2>
+    </div>
+    <p>Go into Settings and fill out your personal preferences. This is where you brief your crew before they start any work.</p>
+
+    <h3>What to Include</h3>
+    <ul class="checklist">
+      <li>Who you are and what you do</li>
+      <li>Your brands and target market</li>
+      <li>How you want it to respond (your style)</li>
+      <li>Your do's and don'ts - what makes you rage, what you love</li>
+      <li>Social media rules - hook, context, story, value, teaching, CTA</li>
+      <li>Email rules - warm, never "I hope this finds you well"</li>
+      <li>Formatting rules - no em dashes, Australian spelling, whatever matters to you</li>
+    </ul>
+
+    <div class="kelly-quote">
+      "You can get your goat up and go, never fucking do this to your AI and it will never fucking do that. That's the beauty of it."
+      <span class="attr">- Kelly Wotherspoon</span>
+    </div>
+
+    <div class="tip">
+      <strong>Kelly's tip:</strong> If there's stuff you say a lot but aren't aware of, get Claude to transcribe your videos or Zoom calls and pull out your natural language patterns. Then put those into your brand voice. What comes out is immaculately beautiful.
+    </div>
+  </div>
+</section>
+
+<!-- STEP 3: CONNECTORS -->
+<section class="section section-navy">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <h2>Connect Your Tools</h2>
+    </div>
+    <p>Connectors are how Claude actually does things inside your business - not just talks about them. Think of them like plug-ins.</p>
+
+    <div class="card card-navy">
+      <h4>Essential Connectors</h4>
+      <ul class="checklist">
+        <li>Google Drive - files, documents, videos</li>
+        <li>Gmail - read, draft, respond to emails in your voice</li>
+        <li>Google Calendar - book, reschedule, manage appointments</li>
+        <li>Canva - create branded designs, posts, assets</li>
+        <li>Zoom - book meetings, manage calls</li>
+      </ul>
+    </div>
+
+    <div class="tip" style="background: rgba(212,175,103,0.08); border-color: rgba(212,175,103,0.2);">
+      <strong>Dispatch:</strong> If you have the Claude app on your phone, Dispatch lets you talk to Claude Desktop from your phone. "Hey, can you send that email? Hey, can you book that appointment?" - all from the couch.
+    </div>
+
+    <div class="kelly-quote" style="border-left-color: var(--gold-light); background: rgba(212,175,103,0.06);">
+      "We're starting to get into the era of this agentic AI that we've all been dreaming of for so long. We're here."
+      <span class="attr" style="color: #F7E7CE;">- Kelly Wotherspoon</span>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 4: PROJECTS -->
+<section class="section">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <h2>Create Your First Project</h2>
+    </div>
+    <p>Projects give Claude a memory. You put your brand kit in here, your instructions, your context - and every conversation inside that project has all of it. No more re-explaining yourself.</p>
+
+    <h3>Two Things Go Into a Project</h3>
+    <div class="card">
+      <h4>Instructions = The Rules</h4>
+      <p>How you want Claude to behave. Your tone, your style, content rules, email rules, design rules. This is you briefing your crew.</p>
+    </div>
+    <div class="card">
+      <h4>Files = The Knowledge</h4>
+      <p>Reference documents Claude can read - your brand guide, services and pricing, testimonials, product info. Anything you want Claude to have at its fingertips. MD files (markdown - just text) work best.</p>
+    </div>
+
+    <h3>How We Set It Up</h3>
+    <ul class="checklist">
+      <li>Create a new Project - name it for your brand</li>
+      <li>Paste your instructions into the Instructions section</li>
+      <li>Drag your brand guide (MD file) into Files</li>
+      <li>Drag your services and pricing into Files</li>
+      <li>Test it - ask for a social media caption and watch it nail your voice first try</li>
+    </ul>
+
+    <div class="prompt-box">
+      <code>Write a short Instagram caption for [your brand] announcing [your thing]</code>
+    </div>
+
+    <div class="kelly-quote">
+      "Instructions are the rules. Files are the knowledge. That's all a Project is."
+      <span class="attr">- Kelly Wotherspoon</span>
+    </div>
+
+    <div class="tip">
+      <strong>Key insight from the session:</strong> Chat can't DO anything for you - it's just question and answer. But if you take your Project context into Cowork, then Claude can actually DO things with it. That's the difference.
+    </div>
+  </div>
+</section>
+
+<!-- STEP 5: CANVA BRAND KIT -->
+<section class="section section-mid">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <h2>Set Up Your Canva Brand Kit</h2>
+    </div>
+    <p>When Canva knows your brand AND Claude knows your brand, everything that gets created is perfectly on-brand. You do this once and you're set.</p>
+
+    <h3>Steps</h3>
+    <ul class="checklist">
+      <li>Open Canva and go to Brand Kit</li>
+      <li>Create a new Brand Kit - name it your brand name</li>
+      <li>Add your brand colours (hex codes from your brand guide)</li>
+      <li>Add your fonts (display font + body font)</li>
+      <li>Upload your logo</li>
+      <li>Optionally add photos, textures, mood imagery</li>
+    </ul>
+
+    <div class="tip">
+      <strong>Branding rule of thumb:</strong> Choose 3 colours you love, then pick a light and dark end of the same colour wheel for text overlay. Then add a splash of something unexpected. Go on vibes - find pictures you love and pull colours from them.
+    </div>
+  </div>
+</section>
+
+<!-- STEP 6: CONTENT CREATION -->
+<section class="section">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <h2>Create Branded Content with Cowork</h2>
+    </div>
+    <p>This is where it all comes together. One prompt. A full week of branded, on-voice content. Done.</p>
+
+    <div class="prompt-box">
+      <code>Create 5 branded Instagram posts for [your brand]'s launch week. Use the brand kit colours and voice. Mix quote tiles, app previews, and story-style posts. Make them in Canva using my brand kit.</code>
+    </div>
+
+    <p>Cowork creates a plan, ticks off each task, and generates beautiful branded assets directly in your Canva account. Open them in Canva, download, and post.</p>
+
+    <div class="kelly-quote">
+      "This was one prompt. Look at what... I want to cry. This was one prompt and she's still going."
+      <span class="attr">- Amy Dawson, workshop attendee</span>
+    </div>
+
+    <div class="tip">
+      <strong>Pro tip:</strong> If Claude can't find your Canva brand kit immediately, push back. Tell it the exact name: "I have the brand kit in Canva. It's called [Name]." Sometimes it needs that nudge.
+    </div>
+
+    <h3>What You Can Do From Here</h3>
+    <ul class="checklist">
+      <li>Turn the content creation into a Skill (a repeatable job)</li>
+      <li>Schedule it to run daily or weekly</li>
+      <li>Connect to Content 360 or similar to auto-post to 20+ platforms</li>
+      <li>Never manually create a social post again</li>
+    </ul>
+  </div>
+</section>
+
+<!-- STEP 7: SKILLS -->
+<section class="section section-navy">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">7</div>
+      <h2>Skills: Jobs That Run Themselves</h2>
+    </div>
+    <p>Skills are jobs - end to end processes you want your AI to do. Create it once, run it forever.</p>
+
+    <div class="card card-navy">
+      <h4>How to Create a Skill</h4>
+      <p>Do the job with Claude in Cowork first. Once it's done, say: "That process we just did - turn it into a skill." Claude creates the skill file. Then add it to your Skills in Settings.</p>
+      <p style="margin-top: 12px;">Run any skill by typing <strong>/skill-name</strong> and it executes the entire process end to end.</p>
+    </div>
+
+    <div class="kelly-quote" style="border-left-color: var(--gold-light); background: rgba(212,175,103,0.06);">
+      "When you're creating a new skill, run it through Skill Creator. It's built into Claude to make sure your skills are formatted the way Claude reads them best. It will run perfectly every time."
+      <span class="attr" style="color: #F7E7CE;">- Kelly Wotherspoon</span>
+    </div>
+
+    <h3>Skill Ideas</h3>
+    <ul class="checklist">
+      <li>Content creation - one command, a week of posts</li>
+      <li>Video to clips - long video in, short clips out</li>
+      <li>Email drafting - read inbox, draft responses in your voice</li>
+      <li>Daily briefing - morning summary of what matters</li>
+      <li>Client prep - research before every call</li>
+      <li>Transcription - audio/video to text</li>
+    </ul>
+  </div>
+</section>
+
+<!-- STEP 8: DIGITAL ASSETS -->
+<section class="section">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">8</div>
+      <h2>Build Digital Assets and Lead Magnets</h2>
+    </div>
+
+    <div class="kelly-quote">
+      "You don't own your social media. You don't own your following. So you've got to get them onto a mailing list. Create digital assets and lead magnets - give away free stuff, but have a gate in front of it so you capture their data."
+      <span class="attr">- Kelly Wotherspoon</span>
+    </div>
+
+    <h3>The Strategy</h3>
+    <p>Create something that makes people go "oh my god I NEED this" and hand over their email. Give it away for free - but gate it. Now they're on YOUR mailing list. When you launch? You email YOUR list. Not some algorithm's list. Yours.</p>
+
+    <h3>What We Built Live</h3>
+    <p>A Soul Check-In Interactive Wheel for Healing Soul - an interactive self-assessment where users rate themselves across 8 areas of healing and get personalised insights. Built in minutes.</p>
+
+    <div class="prompt-box">
+      <code>Create a digital lead magnet for [your brand]. Make it a [quiz / interactive tool / PDF guide / journalling kit]. It should capture email, be beautifully branded, and give them a taste of what working with you feels like. Build it as an HTML artifact I can download.</code>
+    </div>
+
+    <h3>Lead Magnet Ideas</h3>
+    <ul class="checklist">
+      <li>Interactive quiz with personalised results</li>
+      <li>7-day challenge (delivered by email)</li>
+      <li>Branded PDF guide or starter kit</li>
+      <li>Mini audio experience (breathwork, meditation, guided journal)</li>
+      <li>Self-assessment tool with visual results</li>
+    </ul>
+
+    <div class="tip">
+      <strong>Pre-launch strategy:</strong> Even before your product is live, create branded content and lead magnets. Build a waitlist. Drip-feed them juiciness. Then when you launch, everyone goes nuts. That's how you break your website - in the best way.
+    </div>
+  </div>
+</section>
+
+<!-- STEP 9: SCHEDULING -->
+<section class="section section-mid">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">9</div>
+      <h2>Automate with Scheduled Tasks</h2>
+    </div>
+    <p>In Cowork, you can schedule tasks to run automatically. Daily briefings, content creation, email checking - set it and forget it.</p>
+
+    <div class="card">
+      <h4>Example: Daily Content Run</h4>
+      <p>Schedule a task that runs every Monday morning: create a week of branded posts, save them to your Canva account, and email you a summary. You wake up, review, and post. Or don't even post - let another tool handle that too.</p>
+    </div>
+
+    <div class="card">
+      <h4>Example: End of Day Summary</h4>
+      <p>Schedule a task that runs every evening: check your emails for anything missed, summarise your calls from today, pull out action items, and update your task list. Ready for tomorrow morning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING DEMO -->
+<section class="section">
+  <div class="container">
+    <div class="step-header">
+      <div class="step-number">10</div>
+      <h2>Let Claude Handle Your Calendar</h2>
+    </div>
+    <p>With Google Calendar connected, Claude can book appointments, check availability, and manage your schedule - all from a simple request.</p>
+
+    <div class="prompt-box">
+      <code>Set up an appointment with [Name] at my next available day. Use Google Meet.</code>
+    </div>
+
+    <p>Claude checks your calendar, finds availability, creates the meeting with a Google Meet link, and it's done. You can also ask it to prep files, send pre-meeting emails, and brief you before the call.</p>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="section section-navy">
+  <div class="container">
+    <h2>Building Trust with Your AI</h2>
+    <div class="kelly-quote" style="border-left-color: var(--gold-light); background: rgba(212,175,103,0.06);">
+      "I've taken a lot of the guardrails off because I've built trust over time. At the start, it'll ask you to approve everything. And you're right to want guardrails. You're right to check everything. Until you trust it - put those guardrails in. Then eventually, you take them off and go: just do your thing, because I know you can do it right."
+      <span class="attr" style="color: #F7E7CE;">- Kelly Wotherspoon</span>
+    </div>
+  </div>
+</section>
+
+<!-- KEY LESSONS -->
+<section class="section">
+  <div class="container">
+    <h2>Key Lessons from Session 1</h2>
+
+    <div class="card">
+      <h4>You Are the Magic</h4>
+      <p>AI amplifies your creative ability. It doesn't replace you - it gives you the capacity to deliver your ideas to the people who need them. You're the captain. Claude is the crew.</p>
+    </div>
+
+    <div class="card">
+      <h4>Branding is Everything</h4>
+      <p>Branding builds know, like, and trust. Your energy goes into your copy, your visuals, your voice - people feel that. Capture your gorgeous energy into your branding, then plug it into Claude.</p>
+    </div>
+
+    <div class="card">
+      <h4>You Don't Own Social Media</h4>
+      <p>Instagram could shut down tomorrow and you lose everyone. But you own your mailing list. Every digital asset, every lead magnet, every piece of content should drive people from rented land onto owned ground.</p>
+    </div>
+
+    <div class="card">
+      <h4>Just Ask Claude</h4>
+      <p>If you don't know how to do something: "Claude, I want to create this thing. How do I do that?" It will take you through the process. The tool teaches you to use itself.</p>
+    </div>
+
+    <div class="card">
+      <h4>AI is Perfect for Neurodivergent Brains</h4>
+      <p>The dopamine hit of watching Claude create artifacts and finish things is real. And the ability to hand over the tasks that drain your energy? That's not lazy - that's strategy.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider">
+  <span class="divider-line"></span>
+  <span class="divider-diamond"></span>
+  <span class="divider-line"></span>
+</div>
+
+<!-- YOUR HOMEWORK -->
+<section class="section section-mid" style="border-bottom: none;">
+  <div class="container">
+    <h2>Your Homework</h2>
+    <ul class="checklist">
+      <li>Download Claude Desktop and get the Pro plan</li>
+      <li>Fill out your Settings - tell Claude who you are</li>
+      <li>Connect Google (Gmail + Calendar) and Canva</li>
+      <li>Create a Project for your brand - paste your brand guide in</li>
+      <li>Test it - ask for a social media caption and see what happens</li>
+      <li>Set up your Canva Brand Kit with your colours and fonts</li>
+      <li>Try Cowork - ask Claude to create branded content</li>
+      <li>Think about your lead magnet - what would make your audience say "oh my god I need this"?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA: GO LIVE -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Elevate?</h2>
+    <p style="opacity: 0.75; max-width: 520px; margin: 0 auto 24px;">You've seen what's possible. You've got the tools. Now let's take YOUR brand and elevate it - with Kelly's eyes, strategy, and design brain on your business.</p>
+
+    <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(212,175,103,0.25); border-radius: 20px; padding: 40px 32px; max-width: 520px; margin: 0 auto 32px; text-align: left;">
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 500; color: #F7E7CE; margin-bottom: 4px; text-align: center;">Go Live With Kelly</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--gold-light); text-align: center; margin-bottom: 24px;">$888 AUD</p>
+
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 20px; text-align: center;">1:1 session. My eyes on your business. Everything goes LIVE before we hang up.</p>
+
+      <div style="font-size: 0.88rem; opacity: 0.8; line-height: 2;">
+        <div style="padding: 8px 0; border-bottom: 1px solid rgba(212,175,103,0.12); display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--gold-light); font-size: 1.1rem;">&#10004;</span>
+          <span>Brand in a Box included - your full brand identity</span>
+        </div>
+        <div style="padding: 8px 0; border-bottom: 1px solid rgba(212,175,103,0.12); display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--gold-light); font-size: 1.1rem;">&#10004;</span>
+          <span>Kelly's strategic eye on your positioning, messaging, and design</span>
+        </div>
+        <div style="padding: 8px 0; border-bottom: 1px solid rgba(212,175,103,0.12); display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--gold-light); font-size: 1.1rem;">&#10004;</span>
+          <span>Website or landing page built, deployed, LIVE - not a file on your desktop</span>
+        </div>
+        <div style="padding: 8px 0; border-bottom: 1px solid rgba(212,175,103,0.12); display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--gold-light); font-size: 1.1rem;">&#10004;</span>
+          <span>SEO + GEO optimised - findable on Google AND AI search</span>
+        </div>
+        <div style="padding: 8px 0; border-bottom: 1px solid rgba(212,175,103,0.12); display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--gold-light); font-size: 1.1rem;">&#10004;</span>
+          <span>Lead magnet or digital asset created, connected, and working</span>
+        </div>
+        <div style="padding: 8px 0; display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--gold-light); font-size: 1.1rem;">&#10004;</span>
+          <span>Everything goes LIVE in the session. If anything needs finishing touches, Kelly completes it within 24 hours. No loose ends.</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="https://buy.stripe.com/9B600jeBS7MHdNAcNLbQY0Y" class="cta-btn" target="_top">Go Live With Kelly - $888</a>
+    <p style="margin-top: 12px; font-size: 0.82rem; opacity: 0.4;">Afterpay, Klarna, and Zip available at checkout</p>
+
+    <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(212,175,103,0.15);">
+      <p style="font-size: 0.82rem; opacity: 0.45; margin-bottom: 8px;">Want the full business ecosystem? Content engine, email agent, automations - everything connected and running?</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold-light);">Build With Kelly and Claude - $1,800</p>
+      <p style="font-size: 0.82rem; opacity: 0.35; margin-top: 4px;">Email aiwithsoulofficial@gmail.com</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    AI with Soul 2026. We build the tech, you do the magic.
+  </div>
+</footer>
+
+</body>
+</html>
