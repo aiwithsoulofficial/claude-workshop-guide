@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude: The Easy Way - Session Feedback</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FDF6F2;
+      --navy: #0F1E36;
+      --charcoal: #1a1a2e;
+      --gold: #B07856;
+      --gold-light: #D4A882;
+      --gold-cta: #C4956A;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .container { max-width: 560px; width: 100%; }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    h1 em { color: var(--gold); font-style: italic; }
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.5;
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+    .form-group { margin-bottom: 24px; }
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+    .label-hint {
+      font-weight: 300;
+      font-size: 0.8rem;
+      opacity: 0.5;
+      display: block;
+      margin-top: 2px;
+    }
+    input[type="text"], input[type="email"], textarea, select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(176,120,86,0.25);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      background: white;
+      color: var(--charcoal);
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(176,120,86,0.1);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+    select { cursor: pointer; -webkit-appearance: none; }
+
+    /* STAR RATING */
+    .stars { display: flex; gap: 8px; margin-top: 4px; }
+    .stars input { display: none; }
+    .stars label {
+      font-size: 2rem;
+      cursor: pointer;
+      color: rgba(176,120,86,0.2);
+      transition: color 0.15s;
+      margin-bottom: 0;
+    }
+    .stars label:hover, .stars label:hover ~ label { color: var(--gold); }
+    .stars input:checked ~ label { color: rgba(176,120,86,0.2); }
+    .stars input:checked + label,
+    .stars :has(input:checked) label:has(~ input:checked),
+    .stars label:has(~ input:checked) { color: var(--gold); }
+    /* Reverse order trick for CSS-only stars */
+    .stars { flex-direction: row-reverse; justify-content: flex-end; }
+    .stars input:checked + label,
+    .stars input:checked + label ~ label { color: var(--gold) !important; }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(176,120,86,0.2), transparent);
+      margin: 32px 0;
+    }
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #D4A882 0%, #C4956A 40%, #B5845C 100%);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(176,120,86,0.3);
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(176,120,86,0.4);
+    }
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .thank-you h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .thank-you p { font-size: 0.95rem; opacity: 0.6; font-weight: 300; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div id="formView">
+    <h1>How was <em>the workshop?</em></h1>
+    <p class="subtitle">Your honest feedback helps me make every session better.</p>
+
+    <form id="feedbackForm">
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Your email</label>
+        <input type="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label>Overall, how would you rate today's session?</label>
+        <div class="stars">
+          <input type="radio" name="rating" value="5" id="star5"><label for="star5">&#9733;</label>
+          <input type="radio" name="rating" value="4" id="star4"><label for="star4">&#9733;</label>
+          <input type="radio" name="rating" value="3" id="star3"><label for="star3">&#9733;</label>
+          <input type="radio" name="rating" value="2" id="star2"><label for="star2">&#9733;</label>
+          <input type="radio" name="rating" value="1" id="star1"><label for="star1">&#9733;</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>What was the most valuable thing you took away from today?</label>
+        <textarea name="most_valuable" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Was there anything you wished we covered more?</label>
+        <textarea name="wished_more" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>How confident do you feel using Claude for your business now?
+          <span class="label-hint">Compared to before the workshop</span>
+        </label>
+        <select name="confidence" required>
+          <option value="" disabled selected>Choose one</option>
+          <option value="way_more">Way more confident - I know exactly what to do</option>
+          <option value="more">More confident - I have a clear starting point</option>
+          <option value="same">About the same - I need more practice</option>
+          <option value="overwhelmed">A bit overwhelmed - there's a lot to take in</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Would you recommend this workshop to a friend?</label>
+        <select name="recommend" required>
+          <option value="" disabled selected>Choose one</option>
+          <option value="absolutely">Absolutely - already have someone in mind</option>
+          <option value="yes">Yes, definitely</option>
+          <option value="maybe">Maybe, depends on the person</option>
+          <option value="no">Probably not</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>What would you like to see in future sessions?
+          <span class="label-hint">Optional - but I read every one of these</span>
+        </label>
+        <textarea name="future_sessions" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Can I use your feedback as a testimonial?
+          <span class="label-hint">First name only, anonymous, or not at all - your call</span>
+        </label>
+        <select name="testimonial_permission">
+          <option value="" disabled selected>Choose one</option>
+          <option value="full_name">Yes - use my full name</option>
+          <option value="first_name">Yes - first name only</option>
+          <option value="anonymous">Yes - but keep it anonymous</option>
+          <option value="no">No thanks</option>
+        </select>
+      </div>
+
+      <div class="divider"></div>
+
+      <button type="submit" class="submit-btn">Send My Feedback</button>
+    </form>
+  </div>
+
+  <div class="thank-you" id="thankYou">
+    <h2>Thank you, darling.</h2>
+    <p>Your feedback means the world. I read every single one of these and use them to make each session better than the last.</p>
+    <p style="margin-top: 16px; color: var(--gold);">Kelly x</p>
+  </div>
+</div>
+
+<script>
+document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  data.submitted_at = new Date().toISOString();
+  data.session = 'session-1-apr17';
+
+  // Send to Kelly via email (formspree or similar could be added)
+  // For now, store in localStorage and show thank you
+  const existing = JSON.parse(localStorage.getItem('workshop-feedback') || '[]');
+  existing.push(data);
+  localStorage.setItem('workshop-feedback', JSON.stringify(existing));
+
+  // Also try to send via mailto as fallback
+  const body = Object.entries(data).map(([k,v]) => k + ': ' + v).join('\n');
+  try {
+    await fetch('https://formsubmit.co/ajax/aiwithsoulofficial@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        _subject: 'Workshop Feedback - ' + data.name,
+        message: body
+      })
+    });
+  } catch(err) { /* silent fail - localStorage has it */ }
+
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
